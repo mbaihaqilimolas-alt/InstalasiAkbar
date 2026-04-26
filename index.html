@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panduan Instalasi Akbar — Software Data Mining</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #1e2530;
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.14);
+      --text: #e6edf3;
+      --muted: #7d8590;
+      --accent-r: #4493f8;
+      --accent-a: #3fb950;
+      --accent-s: #f78166;
+      --accent-r-dim: rgba(68,147,248,0.12);
+      --accent-a-dim: rgba(63,185,80,0.12);
+      --accent-s-dim: rgba(247,129,102,0.12);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,17,23,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+      height: 56px;
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 15px;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.3px;
+    }
+    .nav-links {
+      display: flex; gap: 4px;
+      margin-left: auto;
+      list-style: none;
+    }
+    .nav-links a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-links a:hover { background: var(--surface); color: var(--text); }
+    .nav-links .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 5rem 1.5rem 4rem;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse at center, rgba(68,147,248,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.3px;
+    }
+    .hero-tag .pulse {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent-a);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+    .hero h1 span { color: var(--accent-r); }
+    .hero p {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+    }
+    .hero-stats {
+      display: flex; justify-content: center; gap: 2px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-stats .stat {
+      padding: 1rem 2rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .hero-stats .stat:first-child { border-radius: 10px 0 0 10px; }
+    .hero-stats .stat:last-child { border-radius: 0 10px 10px 0; }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px; font-weight: 700;
+      color: var(--text);
+    }
+    .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    .scroll-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px;
+      background: var(--accent-r);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 14px; font-weight: 500;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .scroll-btn:hover { opacity: 0.85; }
+
+    /* ─── SECTION ─── */
+    .section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1.5rem 5rem;
+    }
+    .section-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 2rem;
+    }
+    .sw-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px; font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+    .sw-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* ─── CARD ─── */
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .card-top {
+      padding: 1.75rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; gap: 1rem;
+    }
+    .sw-logo {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+    .sw-info h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px; font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.3px;
+      margin-bottom: 4px;
+    }
+    .sw-info p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .badges { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+    .badge {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px; font-weight: 500;
+      border: 1px solid;
+    }
+
+    .card-body { padding: 1.75rem; }
+
+    /* ─── REQUIREMENTS ─── */
+    .req-title {
+      font-size: 11px; font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .req-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
+      margin-bottom: 2rem;
+    }
+    .req-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .req-item .req-key { font-size: 10px; color: var(--muted); margin-bottom: 3px; }
+    .req-item .req-val { font-size: 13px; color: var(--text); font-weight: 400; }
+
+    /* ─── STEPS ─── */
+    .steps-list { position: relative; }
+    .step {
+      display: flex;
+      gap: 1rem;
+      padding-bottom: 1.75rem;
+      position: relative;
+    }
+    .step:last-child { padding-bottom: 0; }
+    .step-left { display: flex; flex-direction: column; align-items: center; gap: 0; flex-shrink: 0; }
+    .step-circle {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 500;
+      color: var(--muted);
+      background: var(--surface2);
+      flex-shrink: 0;
+      z-index: 1;
+    }
+    .step-line {
+      flex: 1;
+      width: 1px;
+      background: var(--border);
+      margin-top: 6px;
+    }
+    .step:last-child .step-line { display: none; }
+    .step-body { padding-top: 4px; }
+    .step-body h4 {
+      font-size: 15px; font-weight: 500;
+      color: var(--text);
+      margin-bottom: 5px;
+      line-height: 1.3;
+    }
+    .step-body p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .note-box {
+      display: flex; align-items: flex-start; gap: 8px;
+      background: var(--surface2);
+      border-left: 2px solid;
+      border-radius: 0 6px 6px 0;
+      padding: 8px 12px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    code {
+      font-family: 'Courier New', monospace;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--accent-a);
+    }
+
+    /* ─── DOWNLOAD SECTION ─── */
+    .dl-section {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .dl-title { font-size: 11px; color: var(--muted); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    @media (max-width: 480px) { .dl-grid { grid-template-columns: 1fr; } }
+    .dl-btn {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px;
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      background: var(--surface2);
+      text-decoration: none;
+      color: var(--text);
+      font-size: 13px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .dl-btn:hover { border-color: var(--border2); background: var(--surface); }
+    .dl-btn .dl-icon { font-size: 18px; }
+    .dl-btn .dl-text strong { display: block; font-weight: 500; font-size: 13px; }
+    .dl-btn .dl-text span { font-size: 11px; color: var(--muted); }
+    .dl-btn .arr { margin-left: auto; color: var(--muted); font-size: 14px; }
+
+    /* ─── TIPS ─── */
+    .tips-box {
+      margin-top: 1.5rem;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid;
+      display: flex; gap: 10px;
+      font-size: 13px; line-height: 1.6;
+    }
+    .tips-box .tips-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      max-width: 800px;
+      margin: 0 auto 4rem;
+      padding: 0 1.5rem;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    footer strong { color: var(--text); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up {
+      animation: fadeUp 0.5s ease forwards;
+      opacity: 0;
+    }
+    .fade-up:nth-child(1) { animation-delay: 0.1s; }
+    .fade-up:nth-child(2) { animation-delay: 0.2s; }
+    .fade-up:nth-child(3) { animation-delay: 0.3s; }
+    .fade-up:nth-child(4) { animation-delay: 0.4s; }
+    .fade-up:nth-child(5) { animation-delay: 0.5s; }
+
+    @media (max-width: 600px) {
+      nav .nav-links { display: none; }
+      .hero { padding: 3.5rem 1.25rem 3rem; }
+      .hero-stats .stat { padding: 0.75rem 1.25rem; }
+      .card-top { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Instalasi Akbar</a>
+    <ul class="nav-links">
+      <li><a href="#rstudio"><span class="dot" style="background:#4493f8"></span>RStudio</a></li>
+      <li><a href="#anaconda"><span class="dot" style="background:#3fb950"></span>Anaconda</a></li>
+      <li><a href="#superdecision"><span class="dot" style="background:#f78166"></span>SuperDecisions</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tag">
+      <span class="pulse"></span>
+      Proker Instalasi Akbar
+    </div>
+    <h1>Panduan Instalasi<br><span>Software Data Mining</span></h1>
+    <p>Tutorial lengkap cara menginstal RStudio, Anaconda, dan SuperDecisions — step by step dari nol sampai siap digunakan.</p>
+    <div class="hero-stats fade-up">
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Software</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Gratis</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Step</div>
+        <div class="stat-label">by Step</div>
+      </div>
+    </div>
+    <a href="#rstudio" class="scroll-btn">Mulai Panduan ↓</a>
+  </section>
+
+  <!-- ─── RSTUDIO ─── -->
+  <section class="section" id="rstudio">
+    <div class="section-header fade-up">
+      <span class="sw-num">01</span>
+      <div class="sw-line"></div>
+    </div>
+    <div class="card fade-up">
+      <div class="card-top">
+        <div class="sw-logo" style="background: rgba(68,147,248,0.12);">📊</div>
+        <div class="sw-info">
+          <h2>RStudio</h2>
+          <p>IDE (Integrated Development Environment) terbaik untuk bahasa pemrograman R. Digunakan untuk analisis statistik, visualisasi data, dan data mining.</p>
+          <div class="badges">
+            <span class="badge" style="color:#4493f8; border-color:rgba(68,147,248,0.3); background:rgba(68,147,248,0.08);">Gratis</span>
+            <span class="badge" style="color:#3fb950; border-color:rgba(63,185,80,0.3); background:rgba(63,185,80,0.08);">Windows / Mac / Linux</span>
+            <span class="badge" style="color:#e3b341; border-color:rgba(227,179,65,0.3); background:rgba(227,179,65,0.08);">Butuh R terlebih dahulu</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <p class="req-title">Kebutuhan Sistem</p>
+        <div class="req-grid">
+          <div class="req-item"><div class="req-key">Sistem Operasi</div><div class="req-val">Windows 10/11, macOS, Linux</div></div>
+          <div class="req-item"><div class="req-key">RAM</div><div class="req-val">Min. 4 GB (8 GB disarankan)</div></div>
+          <div class="req-item"><div class="req-key">Storage</div><div class="req-val">± 500 MB</div></div>
+          <div class="req-item"><div class="req-key">Prasyarat</div><div class="req-val">R harus diinstall lebih dulu</div></div>
+        </div>
+
+        <p class="req-title">Langkah Instalasi</p>
+        <div class="steps-list">
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(68,147,248,0.4); color:#4493f8;">1</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Download dan Install R terlebih dahulu</h4>
+              <p>Kunjungi situs CRAN di <strong>cran.r-project.org</strong>. Pilih versi sesuai sistem operasimu (Windows/macOS/Linux). Download filenya, lalu jalankan installer. Klik <em>Next</em> hingga selesai — gunakan pengaturan default.</p>
+              <div class="note-box" style="border-color:#4493f8;">
+                ⚠️ R harus sudah terinstall sebelum menginstall RStudio. Tanpa R, RStudio tidak bisa berjalan.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(68,147,248,0.4); color:#4493f8;">2</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Download RStudio Desktop</h4>
+              <p>Buka <strong>posit.co/download/rstudio-desktop</strong> (Posit adalah pengembang resmi RStudio). Scroll ke bawah dan pilih <em>RStudio Desktop — Free</em>. Klik tombol download sesuai OS-mu.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(68,147,248,0.4); color:#4493f8;">3</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Jalankan installer RStudio</h4>
+              <p>Buka file <code>.exe</code> (Windows) atau <code>.dmg</code> (macOS) yang sudah didownload. Klik <em>Next / Install</em> terus sampai selesai. Tidak ada konfigurasi khusus yang perlu diubah.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(68,147,248,0.4); color:#4493f8;">4</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Verifikasi instalasi</h4>
+              <p>Buka RStudio dari Start Menu / Applications. Jika muncul tampilan dengan 4 panel (Console, Script, Environment, Files), instalasi berhasil! Coba ketik <code>print("Halo Dunia")</code> di panel Console lalu tekan Enter.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="dl-section">
+          <p class="dl-title">Link Download Resmi</p>
+          <div class="dl-grid">
+            <a href="https://cran.r-project.org/" target="_blank" class="dl-btn">
+              <span class="dl-icon">📦</span>
+              <div class="dl-text">
+                <strong>Download R (CRAN)</strong>
+                <span>cran.r-project.org</span>
+              </div>
+              <span class="arr">↗</span>
+            </a>
+            <a href="https://posit.co/download/rstudio-desktop/" target="_blank" class="dl-btn">
+              <span class="dl-icon">📊</span>
+              <div class="dl-text">
+                <strong>Download RStudio</strong>
+                <span>posit.co</span>
+              </div>
+              <span class="arr">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="tips-box" style="background:rgba(68,147,248,0.07); border-color:rgba(68,147,248,0.2); color:#7d9bbb;">
+          <span class="tips-icon">💡</span>
+          <span><strong style="color:#4493f8;">Tips:</strong> Selalu download versi terbaru dari situs resmi. Jika RStudio tidak mendeteksi R secara otomatis, pergi ke <em>Tools → Global Options → R General</em> dan arahkan ke folder instalasi R.</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── ANACONDA ─── -->
+  <section class="section" id="anaconda">
+    <div class="section-header fade-up">
+      <span class="sw-num">02</span>
+      <div class="sw-line"></div>
+    </div>
+    <div class="card fade-up">
+      <div class="card-top">
+        <div class="sw-logo" style="background: rgba(63,185,80,0.12);">🐍</div>
+        <div class="sw-info">
+          <h2>Anaconda</h2>
+          <p>Platform data science berbasis Python yang sudah mencakup 1500+ paket siap pakai, Jupyter Notebook, Spyder, dan Anaconda Navigator untuk manajemen environment yang mudah.</p>
+          <div class="badges">
+            <span class="badge" style="color:#3fb950; border-color:rgba(63,185,80,0.3); background:rgba(63,185,80,0.08);">Gratis</span>
+            <span class="badge" style="color:#3fb950; border-color:rgba(63,185,80,0.3); background:rgba(63,185,80,0.08);">Windows / Mac / Linux</span>
+            <span class="badge" style="color:#7d8590; border-color:rgba(125,133,144,0.3); background:rgba(125,133,144,0.08);">Sudah termasuk Python</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <p class="req-title">Kebutuhan Sistem</p>
+        <div class="req-grid">
+          <div class="req-item"><div class="req-key">Sistem Operasi</div><div class="req-val">Windows 8+, macOS 10.13+, Linux</div></div>
+          <div class="req-item"><div class="req-key">RAM</div><div class="req-val">Min. 4 GB (8 GB disarankan)</div></div>
+          <div class="req-item"><div class="req-key">Storage</div><div class="req-val">± 3 GB (full install)</div></div>
+          <div class="req-item"><div class="req-key">Prasyarat</div><div class="req-val">Tidak perlu install Python sendiri</div></div>
+        </div>
+
+        <p class="req-title">Langkah Instalasi</p>
+        <div class="steps-list">
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(63,185,80,0.4); color:#3fb950;">1</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Download Anaconda Installer</h4>
+              <p>Buka <strong>anaconda.com/download</strong>. Klik tombol download sesuai sistem operasimu. Ukuran file sekitar 900 MB, jadi pastikan koneksimu stabil saat mengunduh.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(63,185,80,0.4); color:#3fb950;">2</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Jalankan installer</h4>
+              <p>Buka file yang sudah didownload. Klik <em>Next</em>, setujui <em>License Agreement</em>, lalu saat ditanya pilih <strong>"Just Me"</strong> (bukan All Users). Biarkan folder instalasi default, jangan ubah.</p>
+              <div class="note-box" style="border-color:#3fb950;">
+                ⚠️ Hindari menginstall di folder yang mengandung spasi, contoh: <code>C:\Program Files\Anaconda</code> bisa menyebabkan error. Gunakan <code>C:\anaconda3</code>.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(63,185,80,0.4); color:#3fb950;">3</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Centang "Add to PATH" (khusus Windows)</h4>
+              <p>Di halaman <em>Advanced Installation Options</em>, centang opsi <strong>"Add Anaconda3 to my PATH environment variable"</strong>. Meskipun ada peringatan, ini memudahkan penggunaan Anaconda lewat terminal/command prompt.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(63,185,80,0.4); color:#3fb950;">4</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Selesaikan instalasi dan buka Anaconda Navigator</h4>
+              <p>Klik <em>Install</em> dan tunggu proses selesai (±5-10 menit). Setelah selesai, cari <strong>Anaconda Navigator</strong> di Start Menu. Dari sini kamu bisa buka Jupyter Notebook, Spyder, atau tools lainnya.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(63,185,80,0.4); color:#3fb950;">5</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Verifikasi dengan Jupyter Notebook</h4>
+              <p>Di Anaconda Navigator, klik <em>Launch</em> di bawah Jupyter Notebook. Browser akan terbuka secara otomatis. Coba buat notebook baru dan ketik <code>print("Halo Python")</code> lalu tekan <em>Shift+Enter</em>.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="dl-section">
+          <p class="dl-title">Link Download Resmi</p>
+          <div class="dl-grid">
+            <a href="https://www.anaconda.com/download" target="_blank" class="dl-btn">
+              <span class="dl-icon">🐍</span>
+              <div class="dl-text">
+                <strong>Download Anaconda</strong>
+                <span>anaconda.com/download</span>
+              </div>
+              <span class="arr">↗</span>
+            </a>
+            <a href="https://docs.conda.io/en/latest/miniconda.html" target="_blank" class="dl-btn">
+              <span class="dl-icon">⚡</span>
+              <div class="dl-text">
+                <strong>Miniconda (versi ringan)</strong>
+                <span>docs.conda.io</span>
+              </div>
+              <span class="arr">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="tips-box" style="background:rgba(63,185,80,0.07); border-color:rgba(63,185,80,0.2); color:#7d9b7d;">
+          <span class="tips-icon">💡</span>
+          <span><strong style="color:#3fb950;">Tips:</strong> Kalau storage terbatas (kurang dari 3 GB), gunakan <strong>Miniconda</strong> sebagai alternatif — lebih ringan (±400 MB) dan kamu bisa install paket secara manual sesuai kebutuhan dengan perintah <code>conda install nama-paket</code>.</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── SUPERDECISIONS ─── -->
+  <section class="section" id="superdecision">
+    <div class="section-header fade-up">
+      <span class="sw-num">03</span>
+      <div class="sw-line"></div>
+    </div>
+    <div class="card fade-up">
+      <div class="card-top">
+        <div class="sw-logo" style="background: rgba(247,129,102,0.12);">🎯</div>
+        <div class="sw-info">
+          <h2>SuperDecisions</h2>
+          <p>Software pengambilan keputusan yang mengimplementasikan metode Analytic Hierarchy Process (AHP) dan Analytic Network Process (ANP) untuk pemodelan keputusan kompleks.</p>
+          <div class="badges">
+            <span class="badge" style="color:#f78166; border-color:rgba(247,129,102,0.3); background:rgba(247,129,102,0.08);">Gratis</span>
+            <span class="badge" style="color:#f78166; border-color:rgba(247,129,102,0.3); background:rgba(247,129,102,0.08);">Windows (direkomendasikan)</span>
+            <span class="badge" style="color:#e3b341; border-color:rgba(227,179,65,0.3); background:rgba(227,179,65,0.08);">Butuh Java (JRE)</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <p class="req-title">Kebutuhan Sistem</p>
+        <div class="req-grid">
+          <div class="req-item"><div class="req-key">Sistem Operasi</div><div class="req-val">Windows (paling stabil)</div></div>
+          <div class="req-item"><div class="req-key">RAM</div><div class="req-val">Min. 2 GB</div></div>
+          <div class="req-item"><div class="req-key">Storage</div><div class="req-val">± 200 MB</div></div>
+          <div class="req-item"><div class="req-key">Prasyarat</div><div class="req-val">Java Runtime Environment (JRE)</div></div>
+        </div>
+
+        <p class="req-title">Langkah Instalasi</p>
+        <div class="steps-list">
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(247,129,102,0.4); color:#f78166;">1</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Install Java Runtime Environment (JRE)</h4>
+              <p>SuperDecisions membutuhkan Java untuk berjalan. Buka <strong>adoptium.net</strong> (Eclipse Temurin) atau situs Oracle, download JRE versi 8 atau yang lebih baru. Jalankan installer Java dan ikuti proses default hingga selesai.</p>
+              <div class="note-box" style="border-color:#f78166;">
+                📌 Untuk memverifikasi Java sudah terinstall, buka Command Prompt dan ketik <code>java -version</code>. Jika muncul nomor versi, Java sudah siap.
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(247,129,102,0.4); color:#f78166;">2</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Daftar akun di SuperDecisions</h4>
+              <p>Kunjungi <strong>superdecisions.com</strong> dan klik tombol <em>Download</em> atau <em>Register</em>. Buat akun gratis menggunakan email aktifmu. Verifikasi email yang dikirimkan ke inbox-mu.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(247,129,102,0.4); color:#f78166;">3</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Download SuperDecisions</h4>
+              <p>Setelah login, masuk ke halaman download dan pilih installer sesuai OS-mu. Download file installernya (biasanya berformat <code>.exe</code> atau <code>.jar</code>).</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(247,129,102,0.4); color:#f78166;">4</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Jalankan installer</h4>
+              <p>Buka file installer yang sudah didownload. Ikuti proses instalasi default hingga selesai. Tidak banyak konfigurasi yang perlu diubah — cukup klik <em>Next</em> dan <em>Finish</em>.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left">
+              <div class="step-circle" style="border-color:rgba(247,129,102,0.4); color:#f78166;">5</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h4>Login dan mulai gunakan</h4>
+              <p>Buka aplikasi SuperDecisions, masukkan akun yang sudah didaftar tadi. Kamu sudah bisa membuat model keputusan AHP/ANP. Coba buka salah satu <em>sample project</em> yang sudah tersedia untuk melihat contoh penggunaannya.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="dl-section">
+          <p class="dl-title">Link Download Resmi</p>
+          <div class="dl-grid">
+            <a href="https://www.superdecisions.com/" target="_blank" class="dl-btn">
+              <span class="dl-icon">🎯</span>
+              <div class="dl-text">
+                <strong>SuperDecisions</strong>
+                <span>superdecisions.com</span>
+              </div>
+              <span class="arr">↗</span>
+            </a>
+            <a href="https://adoptium.net/" target="_blank" class="dl-btn">
+              <span class="dl-icon">☕</span>
+              <div class="dl-text">
+                <strong>Java JRE (Adoptium)</strong>
+                <span>adoptium.net</span>
+              </div>
+              <span class="arr">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="tips-box" style="background:rgba(247,129,102,0.07); border-color:rgba(247,129,102,0.2); color:#9b7d77;">
+          <span class="tips-icon">💡</span>
+          <span><strong style="color:#f78166;">Tips:</strong> Jika aplikasi tidak mau terbuka setelah diinstall, penyebab utamanya adalah Java tidak terdeteksi. Coba install ulang Java terlebih dahulu, lalu restart komputer sebelum membuka SuperDecisions kembali.</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Dibuat untuk <strong>Proker Instalasi Akbar</strong> — Tutorial Software Data Mining</p>
+    <p style="margin-top: 6px;">RStudio &nbsp;·&nbsp; Anaconda &nbsp;·&nbsp; SuperDecisions</p>
+  </footer>
+
+</body>
+</html>
